@@ -32,11 +32,11 @@
       }
 
       game.registerAction('a', function() {
-       paddle.moveLeft()
-     })
+        paddle.moveLeft()
+      })
       game.registerAction('d', function() {
-       paddle.moveRight()
-     })
+        paddle.moveRight()
+      })
       game.registerAction('f', function() {
         ball.fire()
       })
@@ -47,16 +47,17 @@
         }
 
         ball.move()
+        // 板球相撞则反弹
         if (paddle.collide(ball)) {
           ball.rebound()
         }
+        // 每帧循环所有砖块判断是否和球相撞
         for (var i = 0; i < blocks.length; i++) {
           if (blocks[i].collide(ball)) {
             blocks[i].kill()
             ball.rebound()
           }  
         }
-
       }
 
       game.draw = function() {
@@ -67,7 +68,6 @@
             game.drawImage(blocks[i])
           }
         }
-
       }
     }
 
