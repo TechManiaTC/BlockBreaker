@@ -17,6 +17,8 @@
 </head>
 <body>
   <canvas id="id-canvas" width="400" height="300"></canvas>
+  <hr>
+  <input type="range" id="id-input-speed" value="30" min="1">
   <script>
     var loadLevel = function(n) {
       n = n - 1
@@ -42,6 +44,10 @@
         } else if (k === 'p') {
           paused = !paused
         }
+      })
+      document.querySelector('#id-input-speed').addEventListener('input', function(event) {
+        var input = event.target
+        window.fps = Number(input.value) 
       });
     }
     var main = function() { 

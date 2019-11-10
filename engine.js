@@ -23,7 +23,8 @@ var Engine = function() {
     g.actions[key] = callback
   }
 
-  setInterval(function() {
+  window.fps = 30
+  var runloop = function () {
     var actions = Object.keys(g.actions)
     // log('g.actions', Object.keys(g))
     for (var i = 0; i < actions.length; i++) {
@@ -39,6 +40,13 @@ var Engine = function() {
     context.clearRect(0, 0, canvas.width, canvas.height)
     // draw
     g.draw()
-  }, 1000/45)
+    setTimeout(function() {
+      runloop()
+    }, 1000/window.fps)
+  }
+
+  setTimeout(function() {
+    runloop()
+  }, 1000/window.fps)
   return g
 }
