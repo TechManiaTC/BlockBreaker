@@ -1,13 +1,18 @@
-var Block = function() {
+var Block = function(position) {
+  // position是坐标 [0, 0]
   var image = imageFromPath('block.png')
   var o = {
     image: image,
-    x: 150,
-    y: 100,
+    x: position[0],
+    y: position[1],
     alive: true,
+    health: position[2] || 1,
   }
   o.kill = function() {
-    o.alive = false
+    o.health -= 1
+    if (o.health < 1) {
+      o.alive = false
+    }
   }
   o.intersectRect = function(o1, o2) {
     var ax1 = o1.x

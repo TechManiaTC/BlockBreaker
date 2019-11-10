@@ -12,24 +12,28 @@
   <script src='ball.js'></script>
   <script src='paddle.js'></script>
   <script src='block.js'></script>
+  <script src='level.js'></script>
   <script src='utils.js'></script>
 </head>
 <body>
   <canvas id="id-canvas" width="400" height="300"></canvas>
   <script>
-    var main = function() { 
-      var game = Engine()
-
-      var paddle = Paddle()
-      var ball = Ball()
-
+    var loadLevel = function(n) {
+      n = n - 1
+      var level = levels[n]
       var blocks = []
-      for (var i = 0; i < 3; i++) {
-        var b = Block()
-        b.x = i * 100
-        b.y = 50
+      for (let i = 0; i < level.length; i++) {
+        var p = level[i]
+        var b = Block(p)
         blocks.push(b)
       }
+      return blocks
+    }
+    var main = function() { 
+      var game = Engine()
+ 
+      var paddle = Paddle()
+      var ball = Ball()
 
       game.registerAction('a', function() {
         paddle.moveLeft()
@@ -40,6 +44,12 @@
       game.registerAction('f', function() {
         ball.fire()
       })
+      var blocks = loadLevel(1)
+      window.addEventListener('keydown', function (e) {
+        if ('12345567'.includes(e.key)) {
+          blocks = loadLevel(Number(e.key))
+        }
+      });
 
       game.update = function() {
         if (game.paused) {
