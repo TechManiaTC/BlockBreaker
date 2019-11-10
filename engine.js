@@ -7,7 +7,6 @@ var Engine = function() {
   var context = canvas.getContext('2d')
   g.canvas = canvas
   g.context = context
-  g.paused = false
   // draw
   g.drawImage = function(image) {
     g.context.drawImage(image.image, image.x, image.y)
@@ -18,11 +17,6 @@ var Engine = function() {
   })
   window.addEventListener('keyup', function(event) {
     g.keydowns[event.key] = false
-  })
-  window.addEventListener('keydown', function(event) {
-    if (event.key === 'p') {
-      g.paused = !g.paused
-    }
   })
   // registerAction
   g.registerAction = function(key, callback) {

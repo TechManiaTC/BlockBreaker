@@ -29,11 +29,27 @@
       }
       return blocks
     }
+    var blocks = []
+    var enableDebugMode = function(enable) {
+      if (!enable) {
+        return
+      }
+      window.paused = false
+      window.addEventListener('keydown', function (e) {
+        var k = e.key
+        if ('12345567'.includes(k)) {
+          blocks = loadLevel(Number(k))
+        } else if (k === 'p') {
+          paused = !paused
+        }
+      });
+    }
     var main = function() { 
       var game = Engine()
  
       var paddle = Paddle()
       var ball = Ball()
+      blocks = loadLevel(1)
 
       game.registerAction('a', function() {
         paddle.moveLeft()
@@ -44,15 +60,11 @@
       game.registerAction('f', function() {
         ball.fire()
       })
-      var blocks = loadLevel(1)
-      window.addEventListener('keydown', function (e) {
-        if ('12345567'.includes(e.key)) {
-          blocks = loadLevel(Number(e.key))
-        }
-      });
+
+      enableDebugMode(true)
 
       game.update = function() {
-        if (game.paused) {
+        if (paused) {
           return
         }
 
