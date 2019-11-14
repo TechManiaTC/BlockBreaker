@@ -66,6 +66,26 @@
       game.registerAction('f', function() {
         ball.fire()
       })
+      // mouese event
+      var enableDrag = false
+      window.addEventListener('mousedown', function(event) {
+        var x = event.offsetX
+        var y = event.offsetY 
+        if (ball.hasPoint(x, y)) {
+          enableDrag = true
+        }
+      });
+      window.addEventListener('mousemove', function(event) {
+        var x = event.offsetX
+        var y = event.offsetY 
+        if (enableDrag) {
+          ball.x = x
+          ball.y = y
+        }
+      });
+      window.addEventListener('mouseup', function(event) {
+        enableDrag = false
+      });
 
       enableDebugMode(true)
 
