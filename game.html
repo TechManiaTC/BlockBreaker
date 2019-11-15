@@ -22,7 +22,7 @@
     <hr>
     <input type="range" id="id-input-speed" value="30" min="1">
     <script>
-        var loadLevel = function (n) {
+        var loadLevel = function(n) {
             n = n - 1
             var level = levels[n]
             var blocks = []
@@ -34,12 +34,12 @@
             return blocks
         }
         var blocks = []
-        var enableDebugMode = function (enable) {
+        var enableDebugMode = function(enable) {
             if (!enable) {
                 return
             }
             window.paused = false
-            window.addEventListener('keydown', function (e) {
+            window.addEventListener('keydown', function(e) {
                 var k = e.key
                 if ('12345567'.includes(k)) {
                     blocks = loadLevel(Number(k))
@@ -47,37 +47,37 @@
                     paused = !paused
                 }
             })
-            document.querySelector('#id-input-speed').addEventListener('input', function (event) {
+            document.querySelector('#id-input-speed').addEventListener('input', function(event) {
                 var input = event.target
                 window.fps = Number(input.value)
             });
         }
-        var main = function () {
+        var main = function() {
             var game = Engine()
 
             var paddle = Paddle()
             var ball = Ball()
             blocks = loadLevel(1)
 
-            game.registerAction('a', function () {
+            game.registerAction('a', function() {
                 paddle.moveLeft()
             })
-            game.registerAction('d', function () {
+            game.registerAction('d', function() {
                 paddle.moveRight()
             })
-            game.registerAction('f', function () {
+            game.registerAction('f', function() {
                 ball.fire()
             })
             // mouese event
             var enableDrag = false
-            window.addEventListener('mousedown', function (event) {
+            window.addEventListener('mousedown', function(event) {
                 var x = event.offsetX
                 var y = event.offsetY
                 if (ball.hasPoint(x, y)) {
                     enableDrag = true
                 }
             });
-            window.addEventListener('mousemove', function (event) {
+            window.addEventListener('mousemove', function(event) {
                 var x = event.offsetX
                 var y = event.offsetY
                 if (enableDrag) {
@@ -85,13 +85,13 @@
                     ball.y = y
                 }
             });
-            window.addEventListener('mouseup', function (event) {
+            window.addEventListener('mouseup', function(event) {
                 enableDrag = false
             });
 
             enableDebugMode(true)
 
-            game.update = function () {
+            game.update = function() {
                 if (paused) {
                     return
                 }
@@ -110,7 +110,7 @@
                 }
             }
 
-            game.draw = function () {
+            game.draw = function() {
                 game.drawImage(paddle)
                 game.drawImage(ball)
                 for (var i = 0; i < blocks.length; i++) {

@@ -1,4 +1,4 @@
-var Ball = function () {
+var Ball = function() {
     var image = imageFromPath('ball.png')
     var o = {
         image: image,
@@ -8,7 +8,7 @@ var Ball = function () {
         speedY: 3,
         fired: false,
     }
-    o.move = function () {
+    o.move = function() {
         if (o.fired) {
             // log('move')
             if (o.x < 0 || o.x > 400 - image.width) {
@@ -21,13 +21,13 @@ var Ball = function () {
             o.y += o.speedY
         }
     }
-    o.fire = function () {
+    o.fire = function() {
         o.fired = true
     }
-    o.rebound = function () {
+    o.rebound = function() {
         o.speedY *= -1
     }
-    o.hasPoint = function (x, y) {
+    o.hasPoint = function(x, y) {
         var xIn = x >= o.x && x <= o.x + o.image.width
         var yIn = y >= o.y && y <= o.y + o.image.height
         return xIn && yIn

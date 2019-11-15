@@ -1,4 +1,4 @@
-var Engine = function () {
+var Engine = function() {
     var g = {
         actions: {},
         keydowns: {},
@@ -8,23 +8,23 @@ var Engine = function () {
     g.canvas = canvas
     g.context = context
     // draw
-    g.drawImage = function (image) {
+    g.drawImage = function(image) {
         g.context.drawImage(image.image, image.x, image.y)
     }
     // events
-    window.addEventListener('keydown', function (event) {
+    window.addEventListener('keydown', function(event) {
         g.keydowns[event.key] = true
     })
-    window.addEventListener('keyup', function (event) {
+    window.addEventListener('keyup', function(event) {
         g.keydowns[event.key] = false
     })
     // registerAction
-    g.registerAction = function (key, callback) {
+    g.registerAction = function(key, callback) {
         g.actions[key] = callback
     }
 
     window.fps = 30
-    var runloop = function () {
+    var runloop = function() {
         var actions = Object.keys(g.actions)
         // log('g.actions', Object.keys(g))
         for (var i = 0; i < actions.length; i++) {
@@ -40,12 +40,12 @@ var Engine = function () {
         context.clearRect(0, 0, canvas.width, canvas.height)
         // draw
         g.draw()
-        setTimeout(function () {
+        setTimeout(function() {
             runloop()
         }, 1000 / window.fps)
     }
 
-    setTimeout(function () {
+    setTimeout(function() {
         runloop()
     }, 1000 / window.fps)
     return g
