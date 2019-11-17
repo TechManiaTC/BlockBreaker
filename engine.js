@@ -1,7 +1,8 @@
-var Engine = function() {
+var Engine = function(images, runCallback) {
     var g = {
         actions: {},
         keydowns: {},
+        images: {}
     }
     var canvas = document.querySelector('#id-canvas')
     var context = canvas.getContext('2d')
@@ -44,9 +45,38 @@ var Engine = function() {
             runloop()
         }, 1000 / window.fps)
     }
-
-    setTimeout(function() {
-        runloop()
-    }, 1000 / window.fps)
+    var loads= []
+    var names = Object.keys(images)
+    // loads all images before game start
+    for (let i = 0; i < names.length; i++) {
+        let name = names[i]
+        let path = images[name]
+        let img = new Image()
+        img.src = path
+        img.onload = function() {
+            // 保证所有素材载入后运行游戏
+            g.images[name] = img
+            loads.push(1)
+            if (loads.length === names.length) {
+                g.run()
+            }
+        }
+        
+    }
+    g.imageByName = function(name) {
+        var img = g.images[name]
+        var image = {
+            w: img.width,
+            h: img.height,
+            image: img,
+        }
+        return image
+    }
+    g.run = function() {
+        runCallback()
+        setTimeout(function() {
+            runloop()
+        }, 1000 / window.fps)
+    }
     return g
 }
