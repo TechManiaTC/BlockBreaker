@@ -1,5 +1,6 @@
 var Engine = function(images, runCallback) {
     var g = {
+        scene: null,
         actions: {},
         keydowns: {},
         images: {}
@@ -22,6 +23,16 @@ var Engine = function(images, runCallback) {
     // registerAction
     g.registerAction = function(key, callback) {
         g.actions[key] = callback
+    }
+    g.update = function() {
+        if (paused) {
+            return
+        }
+        g.scene.update()
+
+    }
+    g.draw = function() {
+        g.scene.draw()
     }
 
     window.fps = 30
@@ -58,7 +69,7 @@ var Engine = function(images, runCallback) {
             g.images[name] = img
             loads.push(1)
             if (loads.length === names.length) {
-                g.run()
+                g.startGame()
             }
         }
         
@@ -72,11 +83,18 @@ var Engine = function(images, runCallback) {
         }
         return image
     }
-    g.run = function() {
-        runCallback()
+    g.runWithScene = function(scene) {
+        g.scene = scene
+        // 开始运行程序
         setTimeout(function() {
             runloop()
         }, 1000 / window.fps)
+    }
+    g.replaceScene = function(scene) {
+        g.scene = scene
+    }
+    g.startGame = function() {
+        runCallback(g)
     }
     return g
 }
