@@ -34,13 +34,13 @@ var enableDebugMode = function(game, enable) {
 
 var main = function() {
     var images = {
-        ball: 'ball.png',
-        paddle: 'paddle.png',
-        block: 'block.png',
+        ball: 'img/ball.png',
+        paddle: 'img/paddle.png',
+        block: 'img/block.png',
     }
 
     var game = Engine(images, function(g) {
-        var scene = Scene(game)
+        var scene = SceneTitle(game)
         g.runWithScene(scene)
     })
 
