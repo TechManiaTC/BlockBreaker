@@ -1,17 +1,12 @@
-var SceneTitle = function(game) {
-    var s = {
-        game: game
+class SceneTitle extends AbstractScene {
+    constructor(game) {
+        super(game)
+        game.registerAction('k', function() {
+            var start = new Scene(game)
+            game.replaceScene(start)
+        })
     }
-    game.registerAction('k', function() {
-        var start = Scene(game)
-        game.replaceScene(start)
-    })
-
-    s.draw = function() {
-        game.context.fillText('按 k 开始游戏', 100, 200)
+    draw() {
+        this.game.context.fillText('按 k 开始游戏', 100, 200)
     }
-
-    s.update = function() {
-    }
-    return s
 }

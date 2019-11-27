@@ -40,7 +40,7 @@ var main = function() {
     }
 
     var game = Engine(images, function(g) {
-        var scene = SceneTitle(game)
+        var scene = new SceneTitle(game)
         g.runWithScene(scene)
     })
 

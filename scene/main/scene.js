@@ -21,7 +21,7 @@ var Scene = function(game) {
         ball.move()
         // 游戏结束
         if (ball.y > paddle.y) {
-            var end = SceneEnd(game)
+            var end = new SceneEnd(game)
             game.replaceScene(end)
         }
         // 板球相撞则反弹
