@@ -1,81 +1,81 @@
-var Engine = function(images, runCallback) {
-    var g = {
-        scene: null,
-        actions: {},
-        keydowns: {},
-        images: {}
+class Engine {
+    constructor(images, runCallback) {
+        window.fps = 30
+        this.images = images
+        this.runCallback = runCallback
+
+        this.scene = null
+        this.actions = {}
+        this.keydowns = {}
+        this.canvas = document.querySelector('#id-canvas')
+        this.context = this.canvas.getContext('2d')
+        this.init()
     }
-    var canvas = document.querySelector('#id-canvas')
-    var context = canvas.getContext('2d')
-    g.canvas = canvas
-    g.context = context
+    init = () => {
+        // events
+        window.addEventListener('keydown', event => {
+            this.keydowns[event.key] = true
+        })
+        window.addEventListener('keyup', event => {
+            this.keydowns[event.key] = false
+        })
+        // loads all images before game start
+        var loads= []
+        var names = Object.keys(this.images)
+        for (let i = 0; i < names.length; i++) {
+            let name = names[i]
+            let path = this.images[name]
+            let img = new Image()
+            img.src = path
+            img.onload = () => {
+                // 保证所有素材载入后运行游戏
+                this.images[name] = img
+                loads.push(1)
+                if (loads.length === names.length) {
+                    this.startGame()
+                }
+            }
+            
+        }
+    }
     // draw
-    g.drawImage = function(image) {
-        g.context.drawImage(image.image, image.x, image.y)
+    drawImage = (img) => {
+        this.context.drawImage(img.image, img.x, img.y)
     }
-    // events
-    window.addEventListener('keydown', function(event) {
-        g.keydowns[event.key] = true
-    })
-    window.addEventListener('keyup', function(event) {
-        g.keydowns[event.key] = false
-    })
-    // registerAction
-    g.registerAction = function(key, callback) {
-        g.actions[key] = callback
+    registerAction = (key, callback) => {
+        this.actions[key] = callback
     }
-    g.update = function() {
-        if (paused) {
+    update = () => {
+        if (window.paused) {
             return
         }
-        g.scene.update()
-
+        this.scene.update()
     }
-    g.draw = function() {
-        g.scene.draw()
+    draw = () => {
+        this.scene.draw()
     }
-
-    window.fps = 30
-    var runloop = function() {
-        var actions = Object.keys(g.actions)
-        // log('g.actions', Object.keys(g))
+    runloop = () => {
+        var actions = Object.keys(this.actions)
+        // log('this.actions', Object.keys(g))
         for (var i = 0; i < actions.length; i++) {
             var key = actions[i]
-            if (g.keydowns[key]) {
+            if (this.keydowns[key]) {
                 // if key pressed, call register action
-                g.actions[key]()
+                this.actions[key]()
             }
         }
         // update status
-        g.update()
+        this.update()
         // clear
-        context.clearRect(0, 0, canvas.width, canvas.height)
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
         // draw
-        g.draw()
-        setTimeout(function() {
-            runloop()
+        this.draw()
+        setTimeout(() => {
+            this.runloop()
         }, 1000 / window.fps)
     }
-    var loads= []
-    var names = Object.keys(images)
-    // loads all images before game start
-    for (let i = 0; i < names.length; i++) {
-        let name = names[i]
-        let path = images[name]
-        let img = new Image()
-        img.src = path
-        img.onload = function() {
-            // 保证所有素材载入后运行游戏
-            g.images[name] = img
-            loads.push(1)
-            if (loads.length === names.length) {
-                g.startGame()
-            }
-        }
-        
-    }
-    g.imageByName = function(name) {
-        var img = g.images[name]
+    imageByName = (name) => {
+        var img = this.images[name]
         var image = {
             w: img.width,
             h: img.height,
@@ -83,18 +83,17 @@ var Engine = function(images, runCallback) {
         }
         return image
     }
-    g.runWithScene = function(scene) {
-        g.scene = scene
+    runWithScene = (scene) => {
+        this.scene = scene
         // 开始运行程序
-        setTimeout(function() {
-            runloop()
+        setTimeout(() => {
+            this.runloop()
         }, 1000 / window.fps)
     }
-    g.replaceScene = function(scene) {
-        g.scene = scene
+    replaceScene = (scene) => {
+        this.scene = scene
     }
-    g.startGame = function() {
-        runCallback(g)
+    startGame = () => {
+        this.runCallback(this)
     }
-    return g
 }

@@ -1,7 +1,7 @@
 var loadLevel = function(game, n) {
     n = n - 1
     var level = levels[n]
-    log('level', level)
+    // log('level', level)
     var blocks = []
     for (let i = 0; i < level.length; i++) {
         var p = level[i]
@@ -19,7 +19,7 @@ var enableDebugMode = function(game, enable) {
     window.paused = false
     window.addEventListener('keydown', function(e) {
         var k = e.key
-        if ('12345567'.includes(k)) {
+        if ('1234567'.includes(k)) {
             blocks = loadLevel(game, Number(k))
         } else if (e.code === 'Space') {
             paused = !paused
@@ -39,7 +39,7 @@ var main = function() {
         block: 'img/block.png',
     }
 
-    var game = Engine(images, function(g) {
+    var game = new Engine(images, function(g) {
         var scene = new SceneTitle(game)
         g.runWithScene(scene)
     })
